@@ -4,92 +4,65 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float Speed;
-    public float VelocityDamping;
-    public float JumpTime;
+    CharacterController Char;
+    Animator Anim;
+    GameObject MeshPLayer;
+    public Transform CamFeet;
+    public Camera cam;
+    public float speed;
+    public float Smooth;
+    float turn;
+    Vector3 Direction;
 
-    public enum ForwardMode { Camera, Player, World };
-    public ForwardMode InputForward;
-
-    public bool RotatePlayer = true;
-
-    public Action SpaceAction;
-    public Action EnterAction;
-
-    Vector3 m_currentVleocity;
-    float m_currentJumpSpeed;
-    float m_restY;
-
-    private void Reset()
+    // Start is called before the first frame update
+    void Start()
     {
-        Speed = 5;
-        InputForward = ForwardMode.Camera;
-        RotatePlayer = true;
-        VelocityDamping = 0.5f;
-        m_currentVleocity = Vector3.zero;
-        JumpTime = 1;
-        m_currentJumpSpeed = 0;
+        Cursor.lockState = CursorLockMode.Locked;
+        Char = GetComponent<CharacterController>();
+        Anim = GetComponentInChildren<Animator>();
+        MeshPLayer = transform.GetChild(0).gameObject;
+        CamFeet = transform.GetChild(1);
+        cam = GetComponentInChildren<Camera>();
+
     }
 
-    private void OnEnable()
-    {
-        m_currentJumpSpeed = 0;
-        m_restY = transform.position.y;
-        SpaceAction -= Jump;
-        SpaceAction += Jump;
-    }
-
+    // Update is called once per frame
     void Update()
     {
-        Vector3 fwd;
-        switch (InputForward)
-        {
-            case ForwardMode.Camera: fwd = Camera.main.transform.forward; break;
-            case ForwardMode.Player: fwd = transform.forward; break;
-            case ForwardMode.World: default: fwd = Vector3.forward; break;
-        }
-
-        fwd.y = 0;
-        fwd = fwd.normalized;
-        if (fwd.sqrMagnitude < 0.01f)
-            return;
-
-        Quaternion inputFrame = Quaternion.LookRotation(fwd, Vector3.up);
-        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        input = inputFrame * input;
-
-        var dt = Time.deltaTime;
-        var desiredVelocity = input * Speed;
-        var deltaVel = desiredVelocity - m_currentVleocity;
-        m_currentVleocity += Damper.Damp(deltaVel, VelocityDamping, dt);
-
-        transform.position += m_currentVleocity * dt;
-        if (RotatePlayer && m_currentVleocity.sqrMagnitude > 0.01f)
-        {
-            var qA = transform.rotation;
-            var qB = Quaternion.LookRotation(
-                (InputForward == ForwardMode.Player && Vector3.Dot(fwd, m_currentVleocity) < 0) 
-                    ? -m_currentVleocity : m_currentVleocity);
-            transform.rotation = Quaternion.Slerp(qA, qB, Damper.Damp(1, VelocityDamping, dt));
-        }
-
-        // Process jump
-        if (m_currentJumpSpeed != 0)
-            m_currentJumpSpeed -= 10 * dt;
-        var p = transform.position;
-        p.y += m_currentJumpSpeed * dt;
-        if (p.y < m_restY)
-        {
-            p.y = m_restY;
-            m_currentJumpSpeed = 0;
-        }
-        transform.position = p;
-
-        if (Input.GetKeyDown(KeyCode.Space) && SpaceAction != null)
-            SpaceAction();
-        if (Input.GetKeyDown(KeyCode.Return) && EnterAction != null)
-            EnterAction();
+        Movement();
+       AnimationControll();
+        Gravity();
+        CameraRotation();
     }
+    void AnimationControll()
+    {
+        Anim.SetFloat("Speed", Direction.magnitude);
+    }
+    void Movement()
+    {
+        float Xmove = Input.GetAxis("Horizontal");
+        float Zmove = Input.GetAxis("Vertical");
+        Direction = new Vector3(Xmove, 0, Zmove).normalized;
+        if (Direction.magnitude >= 0.1f)
+        {
+            float Angle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
+            float finalAngle = Mathf.SmoothDampAngle(MeshPLayer.transform.eulerAngles.y, Angle, ref turn, Smooth);
+            MeshPLayer.transform.rotation = Quaternion.Euler(MeshPLayer.transform.up * finalAngle);
+            Char.Move(MeshPLayer.transform.forward * speed * Time.deltaTime);
+        }
 
-    public void Jump() { m_currentJumpSpeed += 10 * JumpTime * 0.5f; }
+    }
+    void Gravity()
+    {
+        Char.Move(transform.up * -speed * Time.deltaTime);
+    }
+    void CameraRotation()
+    {
+        float MouseX = Input.GetAxis("Mouse X");
+        float MouseY = Input.GetAxis("Mouse Y");
+        transform.Rotate(0, MouseX, 0);
+        float verticalRotation = -MouseY;
+        
+        CamFeet.Rotate(verticalRotation, 0, 0);
+    }
 }
