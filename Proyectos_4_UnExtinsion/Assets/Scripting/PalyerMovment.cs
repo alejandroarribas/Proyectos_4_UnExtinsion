@@ -1,97 +1,164 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PalyerMovment : MonoBehaviour
 {
-    [Header("Movement Var")]
-    public float Speed;
-    public float JumpForce;
-    float RotateSpeed;
-    public float TimeRotate;
-    public float Gravity;
-   
-    [Header("TestVar")]
-    public Transform CameraTransform;
-    public Vector3 Move;
-    public bool Grounded;
-    [Header("Detectors")]
-    public Vector3 FloorDetector;
-    public Vector3 newFloorDetection;
-    public float floorDistance;
+    CharacterController Char;
+    NavMeshAgent Agent;
+    Animator Anim;
+    GameObject MeshPLayer;
+    Transform CamFeet;
+    public Transform PLayerPos;
+    public GameObject AtackPoint;
+    public Camera cam;
+    public float speed;
+    public float Smooth;
+    public bool controlled;
+    public bool Combat;
+    float turn;
+    float Realspeed;
+    float Xmove;
+    float Zmove;
 
-    Rigidbody Rb;
-    public Vector3 movimiento;
-    public Vector3 movimientoHorizontal;
-    public GameObject Priyectil;
-    public GameObject Instancia;
-    public Transform Spawn;
+    Vector3 Direction;
+
     // Start is called before the first frame update
     void Start()
     {
-        Rb = GetComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.Locked;
+        Char = GetComponent<CharacterController>();
+        Agent = GetComponent<NavMeshAgent>();
+        Anim = GetComponentInChildren<Animator>();
+        MeshPLayer = transform.GetChild(0).gameObject;
+        CamFeet = transform.GetChild(1);
+        cam = GetComponentInChildren<Camera>();
+        Realspeed = speed;
+        AtackPoint.SetActive(false);
+        if(!controlled)
+        {
+            CamFeet.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        newFloorDetection = transform.forward;
-        FloorDetector = -transform.up;
-        float Xmove = Input.GetAxis("Horizontal");
-        float Zmove = Input.GetAxis("Vertical");
-        float MouseX = Input.GetAxis("Mouse X");
-        Move = new Vector3(Xmove, 0, Zmove).normalized;
-
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (controlled)
         {
-            Instancia = Instantiate(Priyectil, Spawn.position, Quaternion.identity);
-            Instancia.GetComponent<Rigidbody>().AddForce((transform.forward + transform.up) * 300);
-        }
-        transform.Rotate(0, MouseX, 0);
-        if (Xmove!=0||Zmove!=0)
-        {
-            //float AngleTo = Mathf.Atan2(Move.x, Move.z) * Mathf.Rad2Deg + CameraTransform.eulerAngles.y;
-            //float AngleFinal = Mathf.SmoothDampAngle(transform.eulerAngles.y, AngleTo, ref RotateSpeed, TimeRotate);
-            //transform.rotation = Quaternion.Euler(0, AngleFinal, 0);
-            movimientoHorizontal = transform.right * Xmove+transform.forward*Zmove; 
+            Movement();
+            AnimationControll();
+            Gravity();
+            CameraRotation();
+            ActiveInput();
         }
         else
         {
-            movimientoHorizontal = Vector3.zero;
+            AnimationControll();
+            IAControlled();
         }
-        if (!Grounded)
-        {
-            movimiento.y -= Gravity * Time.deltaTime;
-        }
-        else
-        {
-            movimiento.y = 0;
-        }
-        if(Input.GetKeyDown(KeyCode.Space)&&Grounded)
-        {
-            movimiento.y = JumpForce*Time.deltaTime;
-        }
-        Rb.velocity=(movimiento+movimientoHorizontal);
     }
-    private void FixedUpdate()
+    void AnimationControll()
     {
-        Ray ForwardDetection = new Ray(transform.position+transform.up*0.5f, newFloorDetection);
-        Ray FloorDetection = new Ray(transform.position, FloorDetector);
-        RaycastHit FloorHit;
-        RaycastHit NewFloorHit;
-        if(Physics.Raycast(FloorDetection,out FloorHit,floorDistance))
+        if (controlled)
         {
-            Debug.Log("Suelo");
-            Grounded = true;
+            Anim.SetFloat("Speed", Direction.magnitude);
         }
         else
         {
-            Grounded = false;
-        }
-        if(Physics.Raycast(ForwardDetection, out NewFloorHit, floorDistance))
-        {
-            transform.up = NewFloorHit.normal;
-            transform.position = Vector3.MoveTowards(transform.position,NewFloorHit.point,0.2f);
+            Anim.SetFloat("Speed", Agent.speed);
         }
     }
+
+    //PlayerControl
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    void Movement()
+    {
+        Xmove = Input.GetAxis("Horizontal");
+        Zmove = Input.GetAxis("Vertical");
+        Direction = new Vector3(Xmove, 0, Zmove).normalized;
+        if (Direction.magnitude >= 0.1f)
+        {
+            float Angle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
+            float finalAngle = Mathf.SmoothDampAngle(MeshPLayer.transform.eulerAngles.y, Angle, ref turn, Smooth);
+            MeshPLayer.transform.rotation = Quaternion.Euler(MeshPLayer.transform.up * finalAngle);
+            Char.Move(MeshPLayer.transform.forward * speed * Time.deltaTime);
+        }
+
+    }
+    void Gravity()
+    {
+        Char.Move(transform.up * -speed * Time.deltaTime);
+    }
+    void CameraRotation()
+    {
+        float MouseX = Input.GetAxis("Mouse X");
+        float MouseY = Input.GetAxis("Mouse Y");
+        transform.Rotate(0, MouseX, 0);
+        if(Xmove==0 && Zmove==0)
+        {
+            MeshPLayer.transform.Rotate(0, -MouseX, 0);
+        }
+        float verticalRotation = -MouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -80, 80);
+        CamFeet.Rotate(verticalRotation, 0, 0);
+
+    }
+    public void ChangeControlled()
+    {
+        controlled = true;
+        transform.tag = "Player";
+        Agent.enabled = false;
+        CamFeet.gameObject.SetActive(true);
+    }
+    void ActiveInput()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            Anim.SetTrigger("Attack");
+            StartAttack();
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Anim.SetTrigger("Scream");
+        }
+    }
+
+    //AiControllPlayer
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public void PlayerLocation(Transform PlayerT)
+    {
+        PLayerPos = PlayerT;
+    }
+    void IAControlled()
+    {
+        if(!Combat)
+        FollowPlayer();
+    }
+    void FollowPlayer()
+    {
+        Agent.SetDestination(PLayerPos.position);
+
+
+        if (Vector3.Distance(transform.position, PLayerPos.position) < 1.5f)
+        {
+            Agent.speed = 0;
+        }
+        else
+        {
+            Agent.speed = speed;
+        }
+    }
+    
+    void StartAttack()
+    {
+        AtackPoint.SetActive(true);
+        Invoke("EndAttack", 1.5f);
+    }
+    void EndAttack()
+    {
+        AtackPoint.SetActive(false);
+    }
+
 }
