@@ -7,36 +7,49 @@ public class AiBehaivour : MonoBehaviour
 {
     NavMeshAgent Agent;
     Animator Anim;
-    public GameObject Player;
+    public Transform LookPosition;
+    public ZombieOrde manager;
+    public PalyerMovment[] Enemigos;
     public GameObject Path;
     public float speed = 2;
     public GameObject[] Positions;
     public GameObject Object;
+    public GameObject Rival;
     public int ActualPoint;
     public float FieldOfVew;
     public bool detected;
     public float DetectDistance;
     public float Timer = 2;
+    public float TimerAtak;
     public Transform Position;
     float ActualTimer;
+    public float timerreset;
+    public bool Scape;
+    public bool melee;
+    public bool RAnge;
+    PlayerStateManager PSM;
     // Start is called before the first frame update
     void Start()
     {
         detected = false;
         Agent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
-        Player = FindObjectOfType<PalyerMovment>().gameObject;
+        manager = FindObjectOfType<ZombieOrde>();
+       
         Positions = new GameObject[Path.transform.childCount];
         for (int i = 0; i < Positions.Length; i++)
-        {
-            Positions[i] = Path.transform.GetChild(i).gameObject;
-        }
-        ActualTimer = Timer;
+       {
+           Positions[i] = Path.transform.GetChild(i).gameObject;
+       }
+       ActualTimer = Timer;
+        TimerAtak = timerreset;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        Enemigos = manager.zombiesInScene;
         Animations();
         if (!detected)
         {
@@ -45,29 +58,41 @@ public class AiBehaivour : MonoBehaviour
         }
         if(detected)
         {
-            FollowPosition();
+
+            AttackObjetive();
         }
+        
 
     }
     public void DetectPlayer()
     {
-        if (Vector3.Distance(transform.position, Player.transform.position) <= DetectDistance)
+       
+        for (int i = 0; i < Enemigos.Length; i++)
         {
-            Vector3 Direction = Player.transform.position - transform.position;
-            float angle = Vector3.Angle(Direction, transform.forward);
-            if (angle < FieldOfVew * 0.5f)
+            if (Vector3.Distance(LookPosition.position, Enemigos[i].transform.position) <= DetectDistance)
             {
-                RaycastHit Out;
-                if (Physics.Raycast(transform.position, Direction, out Out, DetectDistance))
+                
+                Vector3 Direction = Enemigos[i].transform.position - LookPosition.position;
+                float angle = Vector3.Angle(Direction, LookPosition.forward);
+                if (angle < FieldOfVew * 0.5f)
                 {
-                    if (Out.transform.gameObject == Player)
+                    
+                    RaycastHit Out;
+                    Ray Detectpos = new Ray(LookPosition.position, Direction);
+                    if (Physics.Raycast(Detectpos, out Out, DetectDistance*2f))
+                    {
+                       
+                    }
+                    else
                     {
                         detected = true;
-                        DetectPlayer();
+                        Position = Enemigos[i].transform;
+                        Rival = Enemigos[i].gameObject;
+                        
                     }
                 }
-            }
 
+            }
         }
     }
     void FollowPath()
@@ -98,23 +123,40 @@ public class AiBehaivour : MonoBehaviour
     {
         Anim.SetFloat("Speed", Agent.speed);
     }
-    void FollowPosition()
+   
+    
+    public void AttackObjetive()
     {
-        Agent.speed = speed;
-        Agent.SetDestination(Position.position);
-       
-        if (Vector3.Distance(transform.position, Position.position) <= 0.2f)
+        if(Rival==null)
         {
-            Agent.speed = 0;
-            ActualTimer -= Time.deltaTime;
-            if (ActualTimer <= 0)
+            detected = false;
+        }
+        if (RAnge)
+        {
+            Anim.SetTrigger("Attack");
+               
+            timerreset -= Time.deltaTime;
+
+            if (timerreset <= 0)
             {
-                Agent.speed = speed;
-                detected = false;
-                Destroy(Object);
-                ActualTimer = Timer;
+                Rival.GetComponent<HealthZombie>().TakeDamage(12);
+                timerreset = TimerAtak;
             }
         }
+        if(melee)
+        {
+            Agent.SetDestination(Rival.transform.position);
+            if(Vector3.Distance(transform.position,Rival.transform.position)<2)
+            {
+                Rival.GetComponent<HealthZombie>().TakeDamage(15);
+            }
+        }
+        if(Scape)
+        {
+            Anim.SetTrigger("Attack");
+        }
+
+        
     }
     
 }
