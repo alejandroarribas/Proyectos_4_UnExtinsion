@@ -12,6 +12,7 @@ public class PalyerMovment : MonoBehaviour
     Transform CamFeet;
     public Transform PLayerPos;
     public GameObject AtackPoint;
+    public Transform Objetivo;
     public Camera cam;
     public float speed;
     public float Smooth;
@@ -133,21 +134,48 @@ public class PalyerMovment : MonoBehaviour
     }
     void IAControlled()
     {
-        if(!Combat)
-        FollowPlayer();
+        if (!Combat)
+            FollowPlayer();
+        else
+            FollowEnemie();
     }
     void FollowPlayer()
     {
-        Agent.SetDestination(PLayerPos.position);
-
-
-        if (Vector3.Distance(transform.position, PLayerPos.position) < 1.5f)
+        if (PLayerPos != null)
         {
-            Agent.speed = 0;
+            Agent.SetDestination(PLayerPos.position);
+
+
+            if (Vector3.Distance(transform.position, PLayerPos.position) < 1.5f)
+            {
+                Agent.speed = 0;
+            }
+            else
+            {
+                Agent.speed = speed;
+            }
         }
         else
         {
-            Agent.speed = speed;
+            return;
+        }
+    }
+    public void FollowEnemie()
+    {
+        if(Objetivo==null)
+        {
+            Combat = false;
+        }
+        
+        Agent.SetDestination(Objetivo.position);
+        if(Vector3.Distance(transform.position,Objetivo.position)<1.5)
+        {
+            Anim.SetTrigger("Attack");
+            StartAttack();
+        }
+        if (Vector3.Distance(transform.position, Objetivo.position) > 10)
+        {
+            Combat = false;
         }
     }
     
@@ -159,6 +187,13 @@ public class PalyerMovment : MonoBehaviour
     void EndAttack()
     {
         AtackPoint.SetActive(false);
+    }
+    
+    public void CallOn(Transform position)
+    {
+        Debug.Log("Tocado");
+        Objetivo = position;
+        Combat = true;
     }
 
 }

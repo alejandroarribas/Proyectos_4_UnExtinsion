@@ -13,7 +13,7 @@ public class AiBehaivour : MonoBehaviour
     public GameObject Path;
     public float speed = 2;
     public GameObject[] Positions;
-    public GameObject Object;
+   
     public GameObject Rival;
     public int ActualPoint;
     public float FieldOfVew;
@@ -21,6 +21,7 @@ public class AiBehaivour : MonoBehaviour
     public float DetectDistance;
     public float Timer = 2;
     public float TimerAtak;
+    public GameObject Object;
     public Transform Position;
     float ActualTimer;
     public float timerreset;
@@ -53,6 +54,7 @@ public class AiBehaivour : MonoBehaviour
         Animations();
         if (!detected)
         {
+            Anim.SetBool("Attack", false); 
             FollowPath();
             DetectPlayer();
         }
@@ -127,36 +129,57 @@ public class AiBehaivour : MonoBehaviour
     
     public void AttackObjetive()
     {
-        if(Rival==null)
+        if (Rival == null)
         {
             detected = false;
         }
-        if (RAnge)
+        else
         {
-            Anim.SetTrigger("Attack");
-               
-            timerreset -= Time.deltaTime;
-
-            if (timerreset <= 0)
+            if (RAnge)
             {
-                Rival.GetComponent<HealthZombie>().TakeDamage(12);
-                timerreset = TimerAtak;
-            }
-        }
-        if(melee)
-        {
-            Agent.SetDestination(Rival.transform.position);
-            if(Vector3.Distance(transform.position,Rival.transform.position)<2)
-            {
-                Rival.GetComponent<HealthZombie>().TakeDamage(15);
-            }
-        }
-        if(Scape)
-        {
-            Anim.SetTrigger("Attack");
-        }
+                Anim.SetBool("Attack",true);
 
-        
+                timerreset -= Time.deltaTime;
+
+                if (timerreset <= 0)
+                {
+                    Rival.GetComponent<HealthZombie>().TakeDamage(12);
+                    if(!Rival.GetComponent<PalyerMovment>().controlled)
+                    {
+                        Rival.GetComponent<PalyerMovment>().CallOn(transform);
+                    }
+                    timerreset = TimerAtak;
+                }
+            }
+            if (melee)
+            {
+                Agent.SetDestination(Rival.transform.position);
+                if (Vector3.Distance(transform.position, Rival.transform.position) < 1.5f)
+                {   
+                    Anim.SetBool("Attack",true);
+                    timerreset -= Time.deltaTime;
+
+                    if (timerreset <= 0)
+                    {
+                        Rival.GetComponent<HealthZombie>().TakeDamage(15);
+                        if (!Rival.GetComponent<PalyerMovment>().controlled)
+                        {
+                            Rival.GetComponent<PalyerMovment>().CallOn(transform);
+                        }
+                        timerreset = TimerAtak;
+                    }
+                }
+                else
+                {
+                    Anim.SetBool("Attack", false);
+                }
+            }
+            if (Scape)
+            {
+                Anim.SetBool("Attack",true);
+            }
+
+        }
     }
     
 }
