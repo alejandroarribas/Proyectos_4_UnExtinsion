@@ -15,12 +15,7 @@ public class ZombieOrde : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Player.gameObject.GetComponent<HealthZombie>().TakeDamage(20);
-          
-          
-        }
+       
     }
     // Update is called once per frame
     public void ChangePlayer()
@@ -28,6 +23,7 @@ public class ZombieOrde : MonoBehaviour
         
         int Randomzombie = Random.RandomRange(0, zombiesAi.Length);
         Destroy(Player.gameObject);
+        if(zombiesAi.Length>=0)
         zombiesAi[Randomzombie].ChangeControlled();
         Delay();
         
