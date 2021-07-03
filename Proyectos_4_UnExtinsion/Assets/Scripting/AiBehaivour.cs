@@ -13,7 +13,7 @@ public class AiBehaivour : MonoBehaviour
     public GameObject Path;
     public float speed = 2;
     public GameObject[] Positions;
-   
+    public float DAmage;
     public GameObject Rival;
     public int ActualPoint;
     public float FieldOfVew;
@@ -78,20 +78,26 @@ public class AiBehaivour : MonoBehaviour
                 float angle = Vector3.Angle(Direction, LookPosition.forward);
                 if (angle < FieldOfVew * 0.5f)
                 {
-                    
-                    RaycastHit Out;
-                    Ray Detectpos = new Ray(LookPosition.position, Direction);
-                    if (Physics.Raycast(Detectpos, out Out, DetectDistance*2f))
-                    {
-                       
-                    }
-                    else
-                    {
-                        detected = true;
-                        Position = Enemigos[i].transform;
-                        Rival = Enemigos[i].gameObject;
+                    Debug.LogWarning("Objt");
+                    detected = true;
+                    Position = Enemigos[i].transform;
+                    Rival = Enemigos[i].gameObject;
+
+                    //Debug.LogWarning("Visualización");
+                    //RaycastHit Out;
+                    //Ray Detectpos = new Ray(LookPosition.position, Direction);
+                    //if (Physics.Raycast(Detectpos, out Out, DetectDistance*2f))
+                    //{
                         
-                    }
+                    //}
+                    //else
+                    //{
+
+                    //    Debug.LogWarning("Objt");
+                    //    detected = true;
+                    //    Position = Enemigos[i].transform;
+                    //    Rival = Enemigos[i].gameObject;
+                    //}
                 }
 
             }
@@ -138,18 +144,11 @@ public class AiBehaivour : MonoBehaviour
             if (RAnge)
             {
                 Anim.SetBool("Attack",true);
-
-                timerreset -= Time.deltaTime;
-
-                if (timerreset <= 0)
-                {
-                    Rival.GetComponent<HealthZombie>().TakeDamage(12);
+                transform.LookAt(Rival.transform.position);
                     if(!Rival.GetComponent<PalyerMovment>().controlled)
                     {
                         Rival.GetComponent<PalyerMovment>().CallOn(transform);
                     }
-                    timerreset = TimerAtak;
-                }
             }
             if (melee)
             {
@@ -161,7 +160,7 @@ public class AiBehaivour : MonoBehaviour
 
                     if (timerreset <= 0)
                     {
-                        Rival.GetComponent<HealthZombie>().TakeDamage(15);
+                        
                         if (!Rival.GetComponent<PalyerMovment>().controlled)
                         {
                             Rival.GetComponent<PalyerMovment>().CallOn(transform);
@@ -180,6 +179,11 @@ public class AiBehaivour : MonoBehaviour
             }
 
         }
+
+    }
+    public void MAkeDamage()
+    {
+        Rival.GetComponent<HealthZombie>().TakeDamage(DAmage);
     }
     
 }

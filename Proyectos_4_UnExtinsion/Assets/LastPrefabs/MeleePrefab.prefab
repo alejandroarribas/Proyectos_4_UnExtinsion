@@ -178,7 +178,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   MaxHealth: 50
-  Zombie: {fileID: 0}
+  Particles: {fileID: 4748497192469758987, guid: d91f80ac34f586d4d8ef6e2da5a6e4de,
+    type: 3}
+  Zombie: {fileID: 1422732249583512297, guid: 85cfb3180fa69e24690de36b3cd5127f, type: 3}
 --- !u!114 &1235595352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,12 +193,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16db738b610632f4594dc384bb87b951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LookPosition: {fileID: 372675192966879778}
+  LookPosition: {fileID: 3953425435352221040}
   manager: {fileID: 0}
   Enemigos: []
   Path: {fileID: 0}
   speed: 2
   Positions: []
+  DAmage: 0
   Rival: {fileID: 0}
   ActualPoint: 0
   FieldOfVew: 60
@@ -275,7 +278,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: ee59022590cf2714f884172238f541b9,
         type: 3}
       propertyPath: m_Name
-      value: Ch15_nonPBR (1)
+      value: MeleePrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee59022590cf2714f884172238f541b9, type: 3}
@@ -285,9 +288,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4636093886144295224}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &372675192966879778 stripped
+--- !u!4 &3953425435352221040 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ee59022590cf2714f884172238f541b9,
+  m_CorrespondingSourceObject: {fileID: -681215969731513272, guid: ee59022590cf2714f884172238f541b9,
     type: 3}
   m_PrefabInstance: {fileID: 4636093886144295224}
   m_PrefabAsset: {fileID: 0}
