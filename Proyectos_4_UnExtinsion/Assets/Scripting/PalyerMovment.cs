@@ -11,7 +11,7 @@ public class PalyerMovment : MonoBehaviour
     GameObject MeshPLayer;
     Transform CamFeet;
     public Transform PLayerPos;
-    public GameObject AtackPoint;
+
     public Transform Objetivo;
     public Camera cam;
     public float speed;
@@ -36,7 +36,7 @@ public class PalyerMovment : MonoBehaviour
         CamFeet = transform.GetChild(1);
         cam = GetComponentInChildren<Camera>();
         Realspeed = speed;
-        AtackPoint.SetActive(false);
+       
         if(!controlled)
         {
             CamFeet.gameObject.SetActive(false);
@@ -118,7 +118,7 @@ public class PalyerMovment : MonoBehaviour
         if(Input.GetButtonDown("Fire1"))
         {
             Anim.SetTrigger("Attack");
-            StartAttack();
+            
         }
         if (Input.GetButtonDown("Fire2"))
         {
@@ -171,7 +171,7 @@ public class PalyerMovment : MonoBehaviour
         if(Vector3.Distance(transform.position,Objetivo.position)<1.5)
         {
             Anim.SetTrigger("Attack");
-            StartAttack();
+           
         }
         if (Vector3.Distance(transform.position, Objetivo.position) > 10)
         {
@@ -179,15 +179,7 @@ public class PalyerMovment : MonoBehaviour
         }
     }
     
-    void StartAttack()
-    {
-        AtackPoint.SetActive(true);
-        Invoke("EndAttack", 1.5f);
-    }
-    void EndAttack()
-    {
-        AtackPoint.SetActive(false);
-    }
+   
     
     public void CallOn(Transform position)
     {

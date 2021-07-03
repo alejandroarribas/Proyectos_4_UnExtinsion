@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &752559005997309945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6962391743765500965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72df9af21119d94abbc5fa48f7bb559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackPoint: {fileID: 1422732249842151334}
 --- !u!1001 &2225540319429700256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70,12 +83,30 @@ PrefabInstance:
     - target: {fileID: 962708537333530697, guid: f3b504c9e36ea6b4a8589bc07211d972,
         type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 962708537333530697, guid: f3b504c9e36ea6b4a8589bc07211d972,
         type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 962708537338158262, guid: f3b504c9e36ea6b4a8589bc07211d972,
+        type: 3}
+      propertyPath: Particles
+      value: 
+      objectReference: {fileID: 4748497192469758987, guid: d91f80ac34f586d4d8ef6e2da5a6e4de,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3b504c9e36ea6b4a8589bc07211d972, type: 3}
+--- !u!1 &6962391743765500965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9114677917030022789, guid: f3b504c9e36ea6b4a8589bc07211d972,
+    type: 3}
+  m_PrefabInstance: {fileID: 2225540319429700256}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1422732249842151334 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 962708537614517510, guid: f3b504c9e36ea6b4a8589bc07211d972,
+    type: 3}
+  m_PrefabInstance: {fileID: 2225540319429700256}
+  m_PrefabAsset: {fileID: 0}
