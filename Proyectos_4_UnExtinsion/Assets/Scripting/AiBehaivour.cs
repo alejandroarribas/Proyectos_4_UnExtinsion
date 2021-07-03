@@ -13,7 +13,7 @@ public class AiBehaivour : MonoBehaviour
     public GameObject Path;
     public float speed = 2;
     public GameObject[] Positions;
-   
+    public float DAmage;
     public GameObject Rival;
     public int ActualPoint;
     public float FieldOfVew;
@@ -68,33 +68,50 @@ public class AiBehaivour : MonoBehaviour
     }
     public void DetectPlayer()
     {
-       
-        for (int i = 0; i < Enemigos.Length; i++)
+        if (Enemigos != null)
         {
-            if (Vector3.Distance(LookPosition.position, Enemigos[i].transform.position) <= DetectDistance)
+            for (int i = 0; i < Enemigos.Length; i++)
             {
-                
-                Vector3 Direction = Enemigos[i].transform.position - LookPosition.position;
-                float angle = Vector3.Angle(Direction, LookPosition.forward);
-                if (angle < FieldOfVew * 0.5f)
+                if (Enemigos[i] != null)
                 {
-                    
-                    RaycastHit Out;
-                    Ray Detectpos = new Ray(LookPosition.position, Direction);
-                    if (Physics.Raycast(Detectpos, out Out, DetectDistance*2f))
+                    if (Vector3.Distance(LookPosition.position, Enemigos[i].transform.position) <= DetectDistance)
                     {
-                       
-                    }
-                    else
-                    {
-                        detected = true;
-                        Position = Enemigos[i].transform;
                         Rival = Enemigos[i].gameObject;
-                        
+                        Vector3 Direction = (Rival.transform.position+Vector3.up) - LookPosition.position;
+                        float angle = Vector3.Angle(Direction, LookPosition.forward);
+                        if (angle < FieldOfVew * 0.5f)
+                        {
+
+                            
+                            
+
+                            Debug.LogWarning("Visualización");
+                            RaycastHit Out;
+                            Ray Detectpos = new Ray(LookPosition.position, Direction);
+                            Debug.DrawLine(LookPosition.position, Direction * DetectDistance,Color.red);
+                            if (Physics.Raycast(Detectpos, out Out, DetectDistance))
+                            {
+                                if (Out.transform.gameObject == Rival)
+                                {
+                                    detected = true;
+                                    Position = Enemigos[i].transform;
+                                }
+                                
+                            }
+                            //else
+                            //{
+
+                            //    Debug.LogWarning("Objt");
+                            //    detected = true;
+                            //    Position = Enemigos[i].transform;
+                            //    Rival = Enemigos[i].gameObject;
+                            //}
+                        }
+
                     }
                 }
-
             }
+           
         }
     }
     void FollowPath()
@@ -138,18 +155,11 @@ public class AiBehaivour : MonoBehaviour
             if (RAnge)
             {
                 Anim.SetBool("Attack",true);
-
-                timerreset -= Time.deltaTime;
-
-                if (timerreset <= 0)
-                {
-                    Rival.GetComponent<HealthZombie>().TakeDamage(12);
+                transform.LookAt(Rival.transform.position);
                     if(!Rival.GetComponent<PalyerMovment>().controlled)
                     {
                         Rival.GetComponent<PalyerMovment>().CallOn(transform);
                     }
-                    timerreset = TimerAtak;
-                }
             }
             if (melee)
             {
@@ -161,7 +171,7 @@ public class AiBehaivour : MonoBehaviour
 
                     if (timerreset <= 0)
                     {
-                        Rival.GetComponent<HealthZombie>().TakeDamage(15);
+                        
                         if (!Rival.GetComponent<PalyerMovment>().controlled)
                         {
                             Rival.GetComponent<PalyerMovment>().CallOn(transform);
@@ -180,6 +190,11 @@ public class AiBehaivour : MonoBehaviour
             }
 
         }
+
+    }
+    public void MAkeDamage()
+    {
+        Rival.GetComponent<HealthZombie>().TakeDamage(DAmage);
     }
     
 }

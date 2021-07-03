@@ -94,6 +94,85 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &1971458933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1971458936}
+  - component: {fileID: 1971458935}
+  - component: {fileID: 1971458934}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1971458936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971458933}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 37.695396, y: 0.7239542, z: 27.737373}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_Children: []
+  m_Father: {fileID: 372675192966879778}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1971458935
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971458933}
+  m_Mesh: {fileID: 0}
+--- !u!23 &1971458934
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971458933}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!54 &1235595349
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -177,8 +256,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 50
-  MaxHealth: 50
-  Zombie: {fileID: 0}
+  MaxHealth: 30
+  Particles: {fileID: 4748497192469758987, guid: d91f80ac34f586d4d8ef6e2da5a6e4de,
+    type: 3}
+  Zombie: {fileID: 1422732249583512297, guid: 85cfb3180fa69e24690de36b3cd5127f, type: 3}
 --- !u!114 &1235595352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,12 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16db738b610632f4594dc384bb87b951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LookPosition: {fileID: 372675192966879778}
+  LookPosition: {fileID: 3953425435352221040}
   manager: {fileID: 0}
   Enemigos: []
   Path: {fileID: 0}
   speed: 2
   Positions: []
+  DAmage: 0
   Rival: {fileID: 0}
   ActualPoint: 0
   FieldOfVew: 60
@@ -275,7 +357,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: ee59022590cf2714f884172238f541b9,
         type: 3}
       propertyPath: m_Name
-      value: Ch15_nonPBR (1)
+      value: MeleePrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee59022590cf2714f884172238f541b9, type: 3}
@@ -288,6 +370,12 @@ GameObject:
 --- !u!4 &372675192966879778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ee59022590cf2714f884172238f541b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4636093886144295224}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3953425435352221040 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -681215969731513272, guid: ee59022590cf2714f884172238f541b9,
     type: 3}
   m_PrefabInstance: {fileID: 4636093886144295224}
   m_PrefabAsset: {fileID: 0}

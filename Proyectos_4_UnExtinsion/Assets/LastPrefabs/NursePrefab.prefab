@@ -69,7 +69,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  Object: {fileID: 0}
+  DAmage: 0
   Rival: {fileID: 0}
   ActualPoint: 0
   FieldOfVew: 60
@@ -77,6 +77,7 @@ MonoBehaviour:
   DetectDistance: 10
   Timer: 2
   TimerAtak: 3
+  Object: {fileID: 0}
   Position: {fileID: 0}
   timerreset: 5
   Scape: 1
@@ -118,7 +119,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   MaxHealth: 10
-  Zombie: {fileID: 0}
+  Particles: {fileID: 4748497192469758987, guid: d91f80ac34f586d4d8ef6e2da5a6e4de,
+    type: 3}
+  Zombie: {fileID: 1422732249583512297, guid: 85cfb3180fa69e24690de36b3cd5127f, type: 3}
 --- !u!1001 &3368594710727746187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,7 +187,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 358b36c6ff8109b4ea2ac67de4c2f638,
         type: 3}
       propertyPath: m_Name
-      value: Ch11_nonPBR
+      value: NursePrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 358b36c6ff8109b4ea2ac67de4c2f638, type: 3}
