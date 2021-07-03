@@ -183,7 +183,7 @@ public class PalyerMovment : MonoBehaviour
     
     public void CallOn(Transform position)
     {
-        Debug.Log("Tocado");
+       
         Objetivo = position;
         Combat = true;
     }

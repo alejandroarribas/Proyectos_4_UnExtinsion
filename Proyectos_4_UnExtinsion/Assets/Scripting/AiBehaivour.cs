@@ -68,39 +68,50 @@ public class AiBehaivour : MonoBehaviour
     }
     public void DetectPlayer()
     {
-       
-        for (int i = 0; i < Enemigos.Length; i++)
+        if (Enemigos != null)
         {
-            if (Vector3.Distance(LookPosition.position, Enemigos[i].transform.position) <= DetectDistance)
+            for (int i = 0; i < Enemigos.Length; i++)
             {
-                
-                Vector3 Direction = Enemigos[i].transform.position - LookPosition.position;
-                float angle = Vector3.Angle(Direction, LookPosition.forward);
-                if (angle < FieldOfVew * 0.5f)
+                if (Enemigos[i] != null)
                 {
-                    Debug.LogWarning("Objt");
-                    detected = true;
-                    Position = Enemigos[i].transform;
-                    Rival = Enemigos[i].gameObject;
+                    if (Vector3.Distance(LookPosition.position, Enemigos[i].transform.position) <= DetectDistance)
+                    {
+                        Rival = Enemigos[i].gameObject;
+                        Vector3 Direction = (Rival.transform.position+Vector3.up) - LookPosition.position;
+                        float angle = Vector3.Angle(Direction, LookPosition.forward);
+                        if (angle < FieldOfVew * 0.5f)
+                        {
 
-                    //Debug.LogWarning("Visualización");
-                    //RaycastHit Out;
-                    //Ray Detectpos = new Ray(LookPosition.position, Direction);
-                    //if (Physics.Raycast(Detectpos, out Out, DetectDistance*2f))
-                    //{
-                        
-                    //}
-                    //else
-                    //{
+                            
+                            
 
-                    //    Debug.LogWarning("Objt");
-                    //    detected = true;
-                    //    Position = Enemigos[i].transform;
-                    //    Rival = Enemigos[i].gameObject;
-                    //}
+                            Debug.LogWarning("Visualización");
+                            RaycastHit Out;
+                            Ray Detectpos = new Ray(LookPosition.position, Direction);
+                            Debug.DrawLine(LookPosition.position, Direction * DetectDistance,Color.red);
+                            if (Physics.Raycast(Detectpos, out Out, DetectDistance))
+                            {
+                                if (Out.transform.gameObject == Rival)
+                                {
+                                    detected = true;
+                                    Position = Enemigos[i].transform;
+                                }
+                                
+                            }
+                            //else
+                            //{
+
+                            //    Debug.LogWarning("Objt");
+                            //    detected = true;
+                            //    Position = Enemigos[i].transform;
+                            //    Rival = Enemigos[i].gameObject;
+                            //}
+                        }
+
+                    }
                 }
-
             }
+           
         }
     }
     void FollowPath()
