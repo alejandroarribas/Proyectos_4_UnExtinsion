@@ -12,6 +12,7 @@ public class PalyerMovment : MonoBehaviour
     GameObject MeshPLayer;
     Transform CamFeet;
     ZombieOrde Zomb;
+    public GameObject Particles;
     public Transform PLayerPos;
     public AudioClip HitSound;
     public AudioClip ScreamSound;
@@ -31,6 +32,7 @@ public class PalyerMovment : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(Particles, transform.position, Quaternion.identity);
         Zomb = FindObjectOfType<ZombieOrde>();
         Sounds = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -172,7 +174,7 @@ public class PalyerMovment : MonoBehaviour
     }
     public void FollowEnemie()
     {
-        if(Objetivo==null)
+        if(Objetivo == null)
         {
             Combat = false;
         }
@@ -183,7 +185,7 @@ public class PalyerMovment : MonoBehaviour
             Anim.SetTrigger("Attack");
            
         }
-        if (Vector3.Distance(transform.position, Objetivo.position) > 10)
+        if (Vector3.Distance(transform.position, Objetivo.position) > 20)
         {
             Combat = false;
         }
