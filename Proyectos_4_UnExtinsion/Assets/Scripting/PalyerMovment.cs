@@ -7,11 +7,12 @@ public class PalyerMovment : MonoBehaviour
 {
     CharacterController Char;
     NavMeshAgent Agent;
+    AudioSource Sounds;
     Animator Anim;
     GameObject MeshPLayer;
     Transform CamFeet;
     public Transform PLayerPos;
-
+    public AudioClip HitSound;
     public Transform Objetivo;
     public Camera cam;
     public float speed;
@@ -117,6 +118,7 @@ public class PalyerMovment : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1"))
         {
+            Sounds.PlayOneShot(HitSound);
             Anim.SetTrigger("Attack");
             
         }
