@@ -38,6 +38,7 @@ public class AiBehaivour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Sound = GetComponent<AudioSource>();
         detected = false;
         Agent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
