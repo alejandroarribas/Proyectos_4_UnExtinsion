@@ -38,6 +38,7 @@ public class AiBehaivour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Sound = GetComponent<AudioSource>();
         detected = false;
         Agent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
@@ -173,6 +174,8 @@ public class AiBehaivour : MonoBehaviour
                 if (Vector3.Distance(transform.position, Rival.transform.position) < 1.5f)
                 {   
                     Anim.SetBool("Attack",true);
+                    if (HitSound != null)
+                        Sound.PlayOneShot(HitSound);
                     timerreset -= Time.deltaTime;
 
                     if (timerreset <= 0)
@@ -200,7 +203,12 @@ public class AiBehaivour : MonoBehaviour
     }
     public void MAkeDamage()
     {
-        Rival.GetComponent<HealthZombie>().TakeDamage(DAmage);
+       if(RAnge)
+       {
+            if (HitSound != null)
+                Sound.PlayOneShot(HitSound);
+       }
+        Rival.GetComponent<HealthZombie>().TakeDamage(DAmage,transform);
     }
     
 }
