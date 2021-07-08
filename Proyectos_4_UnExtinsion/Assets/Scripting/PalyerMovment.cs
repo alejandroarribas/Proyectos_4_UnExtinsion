@@ -29,6 +29,7 @@ public class PalyerMovment : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Sounds = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
         Char = GetComponent<CharacterController>();
         Agent = GetComponent<NavMeshAgent>();

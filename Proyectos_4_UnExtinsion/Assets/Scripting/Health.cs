@@ -7,14 +7,20 @@ public class Health : MonoBehaviour
     public float health;
     public float MaxHealth;
     public GameObject Particles;
-    AudioSource Sound;
+    public AudioSource Sound;
     public AudioClip HitSound;
     // Start is called before the first frame update
     private void Start()
     {
-        Sound = GetComponent<AudioSource>();
+        soundFind();
     }
-
+    private void Update()
+    {
+        if(Sound==null)
+        {
+            soundFind();
+        }
+    }
     // Update is called once per frame
     public void TakeDamage(float Damage)
     {
@@ -30,5 +36,9 @@ public class Health : MonoBehaviour
     public virtual void Die()
     {
 
+    }
+    void soundFind()
+    {
+        Sound = GetComponent<AudioSource>();
     }
 }
