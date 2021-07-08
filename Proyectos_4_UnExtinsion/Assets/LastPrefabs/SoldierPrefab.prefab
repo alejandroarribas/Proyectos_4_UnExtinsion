@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16db738b610632f4594dc384bb87b951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitSound: {fileID: 0}
+  HitSound: {fileID: 8300000, guid: d40330822ccea6140b664c0560d5022f, type: 3}
   LookPosition: {fileID: 2359695742949399088}
   Path: {fileID: 0}
   speed: 2
@@ -195,6 +195,7 @@ MonoBehaviour:
   MaxHealth: 20
   Particles: {fileID: 4748497192469758987, guid: d91f80ac34f586d4d8ef6e2da5a6e4de,
     type: 3}
+  Sound: {fileID: 0}
   HitSound: {fileID: 8300000, guid: a37f44cbf8c2a7443a3c361efa2f233a, type: 3}
   Zombie: {fileID: 1422732249583512297, guid: 85cfb3180fa69e24690de36b3cd5127f, type: 3}
 --- !u!1001 &3899881656644514396

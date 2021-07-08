@@ -71,23 +71,20 @@ public class ZombieOrde : MonoBehaviour
     {
         for (int i = 0; i < zombiesAi.Length; i++)
         {
-            if(zombiesAi[i].Combat)
-            {
-                zombiesAi[i].Combat = false;
+
+            zombiesAi[i].Objetivo = null;
+            zombiesAi[i].Combat = false;
                 
-            }
+            
         }
     }
     public void Rampage(Transform Enemigo)
     {
         for (int i = 0; i < zombiesAi.Length; i++)
         {
-            if (!zombiesAi[i].Combat)
-            {
-                zombiesAi[i].Combat = true;
-                zombiesAi[i].Objetivo = Enemigo;
+            zombiesAi[i].Combat = true;
+            zombiesAi[i].Objetivo = Enemigo;
 
-            }
         }
     }
  

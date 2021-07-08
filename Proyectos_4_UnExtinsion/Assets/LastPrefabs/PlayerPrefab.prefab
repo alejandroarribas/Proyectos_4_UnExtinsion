@@ -176,6 +176,12 @@ PrefabInstance:
       propertyPath: controlled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 962708537333530694, guid: f3b504c9e36ea6b4a8589bc07211d972,
+        type: 3}
+      propertyPath: Particles
+      value: 
+      objectReference: {fileID: 4748497192469758987, guid: 836445e3284d8cb48adc45b8995d9b64,
+        type: 3}
     - target: {fileID: 962708537333530697, guid: f3b504c9e36ea6b4a8589bc07211d972,
         type: 3}
       propertyPath: m_Name

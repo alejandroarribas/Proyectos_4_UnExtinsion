@@ -195,7 +195,10 @@ public class AiBehaivour : MonoBehaviour
             }
             if (Scape)
             {
+                
                 Anim.SetBool("Attack",true);
+                if (HitSound != null)
+                    Sound.PlayOneShot(HitSound);
             }
 
         }
