@@ -7,21 +7,27 @@ public class AiBehaivour : MonoBehaviour
 {
     NavMeshAgent Agent;
     Animator Anim;
+    AudioSource Sound;
+    public AudioClip HitSound;
     public Transform LookPosition;
-    public ZombieOrde manager;
-    public PalyerMovment[] Enemigos;
+    ZombieOrde manager;
+    PalyerMovment[] Enemigos;
     public GameObject Path;
     public float speed = 2;
-    public GameObject[] Positions;
+    GameObject[] Positions;
     public float DAmage;
+    [HideInInspector]
     public GameObject Rival;
-    public int ActualPoint;
+    int ActualPoint;
     public float FieldOfVew;
+    [HideInInspector]
     public bool detected;
     public float DetectDistance;
     public float Timer = 2;
     public float TimerAtak;
+    [HideInInspector]
     public GameObject Object;
+    [HideInInspector]
     public Transform Position;
     float ActualTimer;
     public float timerreset;
@@ -42,7 +48,7 @@ public class AiBehaivour : MonoBehaviour
        {
            Positions[i] = Path.transform.GetChild(i).gameObject;
        }
-       ActualTimer = Timer;
+        ActualTimer = Timer;
         TimerAtak = timerreset;
         
     }
