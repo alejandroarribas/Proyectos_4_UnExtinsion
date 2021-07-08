@@ -13601,6 +13601,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1150966531}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!208 &752665538
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -13617,6 +13618,8 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 5.9680004}
   m_TimeToStationary: 0.5
+=======
+>>>>>>> parent of 5bd1115 (Level changes y texturas)
 --- !u!65 &752665541
 BoxCollider:
   m_ObjectHideFlags: 0
