@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class ZombieOrde : MonoBehaviour
 {
     public PalyerMovment[] zombiesInScene;
     public PalyerMovment[] zombiesAi;
+    public Text ZombieNumber;
+    public Image PlayerHealth;
     public PalyerMovment Player;
     // Start is called before the first frame update
     void Start()
@@ -15,7 +19,9 @@ public class ZombieOrde : MonoBehaviour
 
     private void Update()
     {
-       
+        PlayerHealth.rectTransform.localScale = new Vector3(Player.GetComponent<HealthZombie>().health / Player.GetComponent<HealthZombie>().MaxHealth,
+            PlayerHealth.rectTransform.localScale.y, PlayerHealth.rectTransform.localScale.z);
+        ZombieNumber.text = "Numero de zombies: "+zombiesInScene.Length.ToString();
     }
     // Update is called once per frame
     public void ChangePlayer()

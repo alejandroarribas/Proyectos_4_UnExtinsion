@@ -18,6 +18,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     public void TakeDamage(float Damage)
     {
+        if(HitSound!=null)
         Sound.PlayOneShot(HitSound);
         Instantiate(Particles, transform.position + Vector3.up, Quaternion.identity);
         health -= Damage;

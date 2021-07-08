@@ -118,6 +118,7 @@ public class PalyerMovment : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1"))
         {
+            if(HitSound!=null)
             Sounds.PlayOneShot(HitSound);
             Anim.SetTrigger("Attack");
             
