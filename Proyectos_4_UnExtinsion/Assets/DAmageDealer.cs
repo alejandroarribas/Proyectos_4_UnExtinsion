@@ -20,7 +20,7 @@ public class DAmageDealer : MonoBehaviour
             if (other.GetComponent<EnemiesHealth>())
             {
                 
-                other.GetComponent<EnemiesHealth>().TakeDamage(10);
+                other.GetComponent<EnemiesHealth>().TakeDamage(10,transform);
             }
         }
       

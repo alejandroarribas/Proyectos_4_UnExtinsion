@@ -208,7 +208,7 @@ public class AiBehaivour : MonoBehaviour
             if (HitSound != null)
                 Sound.PlayOneShot(HitSound);
        }
-        Rival.GetComponent<HealthZombie>().TakeDamage(DAmage);
+        Rival.GetComponent<HealthZombie>().TakeDamage(DAmage,transform);
     }
     
 }

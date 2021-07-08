@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
         }
     }
     // Update is called once per frame
-    public void TakeDamage(float Damage)
+    public virtual void TakeDamage(float Damage,Transform position)
     {
         if(HitSound!=null)
         Sound.PlayOneShot(HitSound);
