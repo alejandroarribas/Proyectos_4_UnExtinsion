@@ -67,5 +67,28 @@ public class ZombieOrde : MonoBehaviour
             }
         }
     }
+    public void Regrup()
+    {
+        for (int i = 0; i < zombiesAi.Length; i++)
+        {
+            if(zombiesAi[i].Combat)
+            {
+                zombiesAi[i].Combat = false;
+                
+            }
+        }
+    }
+    public void Rampage(Transform Enemigo)
+    {
+        for (int i = 0; i < zombiesAi.Length; i++)
+        {
+            if (!zombiesAi[i].Combat)
+            {
+                zombiesAi[i].Combat = true;
+                zombiesAi[i].Objetivo = Enemigo;
+
+            }
+        }
+    }
  
 }

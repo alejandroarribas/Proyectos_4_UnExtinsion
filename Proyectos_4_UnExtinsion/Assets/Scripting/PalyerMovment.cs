@@ -11,8 +11,10 @@ public class PalyerMovment : MonoBehaviour
     Animator Anim;
     GameObject MeshPLayer;
     Transform CamFeet;
+    ZombieOrde Zomb;
     public Transform PLayerPos;
     public AudioClip HitSound;
+    public AudioClip ScreamSound;
     public Transform Objetivo;
     public Camera cam;
     public float speed;
@@ -29,6 +31,7 @@ public class PalyerMovment : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Zomb = FindObjectOfType<ZombieOrde>();
         Sounds = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
         Char = GetComponent<CharacterController>();
@@ -126,7 +129,10 @@ public class PalyerMovment : MonoBehaviour
         }
         if (Input.GetButtonDown("Fire2"))
         {
+            if (ScreamSound != null)
+                Sounds.PlayOneShot(ScreamSound);
             Anim.SetTrigger("Scream");
+            Scream();
         }
     }
 
@@ -191,5 +197,8 @@ public class PalyerMovment : MonoBehaviour
         Objetivo = position;
         Combat = true;
     }
-
+    public void Scream()
+    {
+        Zomb.Regrup();
+    }
 }

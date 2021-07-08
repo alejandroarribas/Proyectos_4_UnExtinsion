@@ -14,6 +14,11 @@ public class HealthZombie : Health
         health = MaxHealth;
         
     }
+    public override void TakeDamage(float Damage, Transform position)
+    {
+        base.TakeDamage(Damage,position);
+        manager.Rampage(position);
+    }
 
     // Update is called once per frame
     public override void Die()
